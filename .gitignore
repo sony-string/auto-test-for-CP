@@ -1,0 +1,11 @@
+.vscode/
+
+tc/
+
+generator/
+
+naive/
+
+test_target/
+
+.gitignore

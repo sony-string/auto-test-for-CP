@@ -12,7 +12,6 @@
 #include <iostream>
 #include <fstream>
 #include <format>
-using namespace std;
 
 
 extern int fileno(FILE*);
@@ -259,7 +258,7 @@ int main(int argc, char* argv[]) {
         fclose(out_file_fp);
         
         posix_spawn(&pid, target_program, NULL, NULL, argv_target, NULL);
-        gettimeofday(&stime, NULL); // todo Program received signal SIGTTIN, Stopped (tty input).
+        gettimeofday(&stime, NULL);
         wait(&submitted);
         gettimeofday(&etime, NULL);
 

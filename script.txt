@@ -1,1 +1,0 @@
-./autotest --target=test_target/target --generator=generator/generator --solver=naive/solver -n=10

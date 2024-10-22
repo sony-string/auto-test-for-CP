@@ -14,9 +14,6 @@
 #include <format>
 
 
-extern int fileno(FILE*);
-
-
 #ifdef DEBUG
 static void dlog(const char* format, ...) {
 	va_list ap;
@@ -370,6 +367,9 @@ skip:
                 pass_cnt, TC - pass_cnt - skip_cnt, skip_cnt, TC,(float)pass_cnt / TC * 100);
     }
 
-    if (!no_output_file) fclose(output_file_fp);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+    if (!no_output_file) fclose(output_file_fp); // if not no_output_file, output_file_fp is always initialized here
+#pragma GCC diagnostic pop
     return 0;
 }

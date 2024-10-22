@@ -1,4 +1,4 @@
-# (CLI) Auto Testing for Competition Programming Problems
+# (CLI) Auto Testing for Competition Programming Problems In Linux
 
 A CLI auto tester, allows input text generator program and output generator which use stdin/stdout written by C++.
 

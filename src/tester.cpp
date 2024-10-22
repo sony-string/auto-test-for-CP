@@ -59,7 +59,7 @@ static void redirect_stdout(FILE* to) {
 
 
 /** current file descriptor index of standard input */
-static int fd_stdin = 1;
+static int fd_stdin = 0;
 /**
  * @brief Redirect from file descriptor of stdin forward `to`. This can be reverted by `redirect_stdin(stdin)`.
  * @arg to Destination of redirection.
@@ -191,14 +191,14 @@ int main(int argc, char* argv[]) {
     if (!has_target || help_opt_flag) {
         printf("Usage: autotest --target=<FILE> [OPTION]...\n\n");
         printf("\t  --target=FILE\t\tFILE is target program to autotest\n");
-        printf("\t  --generator=FILE\t\treplace .in with output from FILE\n");
+        printf("\t  --generator=FILE\treplace .in with output from FILE\n");
         printf("\t  --solver=FILE\t\treplace .ans with output from FILE\n");
-        printf("\t  --strict_judge\t\t(has NO EFFECT now)check whitespace(and \\t \\n) strictly\n");
+        printf("\t  --strict_judge\t(has NO EFFECT now)check whitespace(and \\t \\n) strictly\n");
 
         printf("\t-n --nr_tc=NUM\t\tNUM of test cases\n");
         printf("\t-t --time\t\tprint the time for target program to execute\n");
         printf("\t-r --run_only\t\tdo not run checker (do not check pass/fail\n");
-        printf("\t-o --output=FILE\t\tredirect output to FILE (recommended than do this with '>' or '>>')\n");
+        printf("\t-o --output=FILE\tredirect output to FILE (recommended than do this with '>' or '>>')\n");
 
         printf("\t-h --help\t\tdisplay this help and exit\n");
 
@@ -259,7 +259,7 @@ int main(int argc, char* argv[]) {
         fclose(out_file_fp);
         
         posix_spawn(&pid, target_program, NULL, NULL, argv_target, NULL);
-        gettimeofday(&stime, NULL);
+        gettimeofday(&stime, NULL); // todo Program received signal SIGTTIN, Stopped (tty input).
         wait(&submitted);
         gettimeofday(&etime, NULL);
 
@@ -329,7 +329,7 @@ int main(int argc, char* argv[]) {
                 if (is_out_eof && is_ans_eof) break;
                 bool cmp_result = (out_read == ans_read);                
                 if (!cmp_result && passed) {
-                    passed = cmp_result;
+                    passed = cmp_result;                    
                     unexpected_and_expected = std::format("Expected : \"{}\" , Output \"{}\"", ans_read, out_read);
                     break;
                 }
@@ -337,16 +337,12 @@ int main(int argc, char* argv[]) {
             out_file_stream.close();
             ans_file_stream.close();
 
-            if (passed) {
+            if (!passed) {
                 if (no_output_file)
-                    printf("\033[0;31mFAILED\033[0m\n");
+                    printf("\033[0;31mFAILED\033[0m\t");
                 else 
-                    printf("FAILED\n");
-        
-                int input;
-                scanf("%d", &input);
-                if (input == 1) break;
-        
+                    printf("FAILED\t");
+                printf("%s\n", unexpected_and_expected.c_str());        
             } else {
                 if (no_output_file) 
                     printf("\033[0;32mPASSED\033[0m\n");
@@ -355,6 +351,8 @@ int main(int argc, char* argv[]) {
                 pass_cnt++;
             }            
         }
+        fflush(stdout);
+        continue;
 skip:
         skip_cnt++;
         if (no_output_file)

@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -std=c++23 -O2 -Wno-unused-result
 DEBUG_FLAGS = -std=c++23 -Wall -g -DDEBUG
 LDFLAGS = 
 
-bin = a.out
+bin = autotest
 
 SRC_DIR = ./src
 

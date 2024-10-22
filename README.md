@@ -19,6 +19,5 @@ You can run this like.
 ```bash
 $ ./autotest --target=test_target/target --generator=generator/generator --solver=naive/solver -n=10
 ```
-![demo1](./demo/demo1.PNG/)
 
 You can see *help* document with `--help` option.

@@ -34,14 +34,16 @@ static void dlog(const char* format, ...) {
 #endif
 
 
-/** current file descriptor index of standard output */
-static int fd_stdout = 1;
 /**
  * @brief Redirect from file descriptor of stdout forward `to`. This can be reverted by `redirect_stdout(stdout)`.
  * @arg to Destination of redirection.
+ * @note There's static variable, so this is not `thread safe`
  * @return void
  */
 static void redirect_stdout(FILE* to) {
+    /** current file descriptor index of standard output */
+    static int fd_stdout = 1;
+
     if (to == stdout) {
         dup2(fd_stdout, fileno(to));
         close(fd_stdout);
@@ -54,14 +56,16 @@ static void redirect_stdout(FILE* to) {
 }
 
 
-/** current file descriptor index of standard input */
-static int fd_stdin = 0;
 /**
  * @brief Redirect from file descriptor of stdin forward `to`. This can be reverted by `redirect_stdin(stdin)`.
  * @arg to Destination of redirection.
+ * @note There's static variable, so this is not `thread safe`
  * @return void
  */
 static void redirect_stdin(FILE* to) {
+    /** current file descriptor index of standard input */
+    static int fd_stdin = 0;
+
     if (to == stdin) {
         dup2(fd_stdin, fileno(to));
         close(fd_stdin);

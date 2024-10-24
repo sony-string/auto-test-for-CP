@@ -10,7 +10,11 @@ This testing program is written by C++.
 
 ## How to use
 First, build this project.   
-You can use Makefile like below. (`g++[gcc]` and `make` are required)
+You can use Makefile like below. 
+### Requires
+- g++ (requries version 13 or higher which includes `std::format`)
+- make
+
 ```bash
 $ make
 ```

@@ -29,3 +29,7 @@ $ ./autotest --target=test_target/target --generator=generator/generator --solve
 ```
 
 You can see *help* document with `--help` option.
+
+
+## Contribution
+I'm glad to all pull requests :)

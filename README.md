@@ -20,6 +20,9 @@ $ make
 ```
 
 Then `aututest` is built at root directory of project.   
+
+**Before to run** you need to create `tc` directory in same directory of `autotest`.   
+
 You can run this like.
 ```bash
 $ ./autotest --target=test_target/target --generator=generator/generator --solver=naive/solver -n=10
